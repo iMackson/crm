@@ -5,7 +5,15 @@ from django.urls import reverse
 from django.views import generic
 from django.core.mail import send_mail
 from .models import Lead, Agent
-from .forms import LeadForm, LeadModelForm
+from .forms import LeadForm, LeadModelForm, CustomUserCreationForm
+
+
+class SignupView(generic.CreateView):
+    template_name = "registration/signup.html"
+    form_class = CustomUserCreationForm
+
+    def get_success_url(self):
+        return reverse("login")
 
 
 class LandingPageView(generic.TemplateView):
@@ -52,7 +60,6 @@ class LeadCreateView(generic.CreateView):
         return reverse("leads:lead-detail", args=(self.object.pk,))
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        # TODO send email
         send_mail(
             subject="A lead has been created",
             message="Go to the site to see the new lead",
