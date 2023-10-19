@@ -82,23 +82,27 @@ WSGI_APPLICATION = "crm.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-if DEVELOPMENT_MODE:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": env('DB_NAME'),
-            "USER": env('DB_USER'),
-            "PASSWORD": env('DB_PASSWORD'),
-            "HOST": env('DB_HOST'),
-            "PORT": env('DB_PORT'),
-        }
-    }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if os.getenv("DATABASE_URL", None) is None:
-        raise Exception("DATABASE_URL environment variable not defined")
-    DATABSES = {
-        "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
-    }
+# if DEVELOPMENT_MODE:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.postgresql_psycopg2",
+#             "NAME": env('DB_NAME'),
+#             "USER": env('DB_USER'),
+#             "PASSWORD": env('DB_PASSWORD'),
+#             "HOST": env('DB_HOST'),
+#             "PORT": env('DB_PORT'),
+#         }
+#     }
+# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+#     if os.getenv("DATABASE_URL", None) is None:
+#         raise Exception("DATABASE_URL environment variable not defined")
+#     DATABSES = {
+#         "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+#     }
+
+DATABSES = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
 
 
 # Password validation
