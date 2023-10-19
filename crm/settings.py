@@ -17,7 +17,9 @@ if READ_DOT_ENV_FILE:
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+
 
 # Application definition
 
@@ -145,4 +147,4 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     X_FRAME_OPTIONS = "DENY"
-    ALLOWED_HOSTS = ["*"]  # your-domain.com
+    # ALLOWED_HOSTS = ["*"]  # your-domain.com
