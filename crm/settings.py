@@ -1,7 +1,9 @@
 from pathlib import Path
-import environ
 import os
+import sys
 
+import environ
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,6 +11,8 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
+
+DEVELOPMENT_MODE = env.bool('DEVELOPMENT_MODE', default=True)
 READ_DOT_ENV_FILE = env.bool('READ_DOT_ENV_FILE', default=False)
 if READ_DOT_ENV_FILE:
     environ.Env.read_env()
@@ -77,17 +81,27 @@ WSGI_APPLICATION = "crm.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env('DB_NAME'),
-        "USER": env('DB_USER'),
-        "PASSWORD": env('DB_PASSWORD'),
-        "HOST": env('DB_HOST'),
-        "PORT": env('DB_PORT'),
-    }
-}
 
+if DEVELOPMENT_MODE:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": env('DB_NAME'),
+            "USER": env('DB_USER'),
+            "PASSWORD": env('DB_PASSWORD'),
+            "HOST": env('DB_HOST'),
+            "PORT": env('DB_PORT'),
+        }
+    }
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABSES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
+DATABSES = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
