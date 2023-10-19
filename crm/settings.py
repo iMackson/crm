@@ -99,9 +99,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     DATABSES = {
         "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
     }
-DATABSES = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
-}
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
