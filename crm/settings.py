@@ -101,7 +101,7 @@ WSGI_APPLICATION = "crm.wsgi.application"
 #     }
 
 DATABSES = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    'default': env.db()
 }
 
 
