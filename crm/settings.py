@@ -100,10 +100,20 @@ WSGI_APPLICATION = "crm.wsgi.application"
 #         "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 #     }
 
-DATABSES = {
-    'default': env.db()
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": env('DB_NAME'),
+#         "USER": env('DB_USER'),
+#         "PASSWORD": env('DB_PASSWORD'),
+#         "HOST": env('DB_HOST'),
+#         "PORT": env('DB_PORT'),
+#     }
+# }
 
+DATABSES = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
